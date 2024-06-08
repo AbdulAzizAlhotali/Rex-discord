@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول للمستخدمين</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            text-align: right;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        form {
+            margin: 0 auto;
+            max-width: 400px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        label, input {
+            display: block;
+            margin-bottom: 10px;
+            font-family: 'Tajawal', sans-serif;
+            text-align: right;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: 'Tajawal', sans-serif;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<h2 style="text-align: center;">تسجيل الدخول للمستخدمين</h2>
+
+<form id="userLoginForm">
+    <label for="userUsername">اسم المستخدم:</label>
+    <input type="text" id="userUsername" name="userUsername" required>
+    <label for="userKey">المفتاح:</label>
+    <input type="password" id="userKey" name="userKey" required>
+    <button type="button" onclick="userLogin()">تسجيل الدخول</button>
+</form>
+
+<script>
+function userLogin() {
+    var userUsername = document.getElementById("userUsername").value;
+    var userKey = document.getElementById("userKey").value;
+
+    // يمكنك استبدال الشروط هنا بشروط الاختبار الخاصة بك
+    if ((userUsername === "KSA" && userKey === "515") || 
+        (userUsername === "22" && userKey === "22") || 
+        (userUsername === "23" && userKey === "23") || 
+        (userUsername === "24" && userKey === "24") || 
+        (userUsername === "25" && userKey === "25")) {
+        Swal.fire({
+            icon: 'success',
+            title: '<span style="font-family: Tajawal;">تم تسجيل الدخول بنجاح!</span>',
+            showConfirmButton: false,
+            timer: 1500
+        });
+        // هنا يمكنك توجيه المستخدم إلى index.html بعد تسجيل الدخول بنجاح
+        setTimeout(function(){
+            window.location.href = "index.html";
+        }, 1500);
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: '<span style="font-family: Tajawal;">خطأ!</span>',
+            text: '<span style="font-family: Tajawal;">اسم المستخدم أو المفتاح غير صحيحة!</span>',
+            confirmButtonText: '<span style="font-family: Tajawal;">حاول مرة أخرى</span>',
+            confirmButtonColor: '#007bff'
+        });
+    }
+}
+</script>
+
+</body>
+</html>
