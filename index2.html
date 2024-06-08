@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول للمستخدمين</title>
+    <title>discord-webhook</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <style>
         body {
             font-family: 'Tajawal', sans-serif;
             text-align: right;
-            background-color: #f0f0f0;
+            background-image: url('https://example.com/background.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
             padding: 20px;
         }
         form {
@@ -20,11 +23,10 @@
             padding: 20px;
             border-radius: 10px;
         }
-        label, input {
+        label, input, textarea, button {
             display: block;
             margin-bottom: 10px;
             font-family: 'Tajawal', sans-serif;
-            text-align: right;
         }
         button {
             background-color: #007bff;
@@ -34,56 +36,88 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            font-family: 'Tajawal', sans-serif;
         }
         button:hover {
             background-color: #0056b3;
+        }
+        .file-input-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .file-input-container input[type="file"] {
+            display: none;
+        }
+        .file-input-container button {
+            width: 100%;
+        }
+        textarea {
+            resize: none;
         }
     </style>
 </head>
 <body>
 
-<h2 style="text-align: center;">تسجيل الدخول للمستخدمين</h2>
+<h2 style="text-align: center;">ارسال الرسالة بالويب هوك فالدس</h2>
 
-<form id="userLoginForm">
-    <label for="userUsername">اسم المستخدم:</label>
-    <input type="text" id="userUsername" name="userUsername" required>
-    <label for="userKey">المفتاح:</label>
-    <input type="password" id="userKey" name="userKey" required>
-    <button type="button" onclick="userLogin()">تسجيل الدخول</button>
+<form id="dataForm">
+    <label for="username">الاسم الي بيظهر في الويب هوك:</label>
+    <textarea id="username" name="username" required></textarea>
+    <label for="message">الرسالة:</label>
+    <textarea id="message" name="message" required></textarea>
+    <label for="description">الوصف:</label>
+    <textarea id="description" name="description"></textarea>
+
+    <div class="file-input-container">
+        <label for="image">الصورة الي بتجي فرسالة الويب هوك:</label>
+        <input type="file" id="image" name="image">
+        <button type="button" onclick="document.getElementById('image').click()">اختر صورة</button>
+    </div>
+
+    <div class="file-input-container">
+        <label for="webhookImage">صورة الويب هوك:</label>
+        <input type="file" id="webhookImage" name="webhookImage">
+        <button type="button" onclick="document.getElementById('webhookImage').click()">اختر صورة الويب هوك</button>
+    </div>
+
+    <button type="button" onclick="sendData()">إرسال</button>
 </form>
 
 <script>
-function userLogin() {
-    var userUsername = document.getElementById("userUsername").value;
-    var userKey = document.getElementById("userKey").value;
+async function sendData() {
+    var username = document.getElementById("username").value;
+    var message = document.getElementById("message").value;
+    var description = document.getElementById("description").value.trim();
+    var imageFile = document.getElementById("image").files[0];
+    var webhookImageFile = document.getElementById("webhookImage").files[0];
+    var imageUrl = '';
+    var webhookImageUrl = '';
 
-    // يمكنك استبدال الشروط هنا بشروط الاختبار الخاصة بك
-    if ((userUsername === "KSA" && userKey === "515") || 
-        (userUsername === "22" && userKey === "22") || 
-        (userUsername === "23" && userKey === "23") || 
-        (userUsername === "24" && userKey === "24") || 
-        (userUsername === "25" && userKey === "25")) {
-        Swal.fire({
-            icon: 'success',
-            title: '<span style="font-family: Tajawal;">تم تسجيل الدخول بنجاح!</span>',
-            showConfirmButton: false,
-            timer: 1500
-        });
-        // هنا يمكنك توجيه المستخدم إلى index.html بعد تسجيل الدخول بنجاح
-        setTimeout(function(){
-            window.location.href = "index.html";
-        }, 1500);
-    } else {
-        Swal.fire({
-            icon: 'error',
-            title: '<span style="font-family: Tajawal;">خطأ!</span>',
-            text: '<span style="font-family: Tajawal;">اسم المستخدم أو المفتاح غير صحيحة!</span>',
-            confirmButtonText: '<span style="font-family: Tajawal;">حاول مرة أخرى</span>',
-            confirmButtonColor: '#007bff'
-        });
-    }
+    // هنا يمكنك وضع الكود لرفع الصور إلى Imgur وإرجاع روابطها
+
+    var payload = {
+        username: username,
+        avatar_url: webhookImageUrl,
+        embeds: [{
+            title: "مرحبا تلقينا طلب في ارسال هذي الرسالة",
+            description: description ? `**الرسالة :** **${message}**\n\n**الوصف :** **${description}**` : `**الرسالة :** **${message}**`,
+            image: {
+                url: imageUrl
+            }
+        }]
+    };
+
+    // هنا يمكنك وضع الكود لإرسال البيانات عبر الويب هوك
 }
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var authenticated = urlParams.get('authenticated');
+    if (authenticated === 'true') {
+        Swal.fire('تم تسجيل الدخول', 'أهلاً بك في صفحة الويب هوك!', 'success');
+    }
+});
 </script>
 
 </body>
