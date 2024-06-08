@@ -92,54 +92,7 @@ async function sendData() {
     var imageUrl = '';
     var webhookImageUrl = '';
 
-    async function uploadImageToImgur(file) {
-        const formData = new FormData();
-        formData.append('image', file);
-
-        const response = await fetch('https://api.imgur.com/3/image', {
-            method: 'POST',
-            headers: {
-                'Authorization': 'Client-ID f3937f009a99f29'
-            },
-            body: formData
-        });
-
-        const result = await response.json();
-        return result.data.link;
-    }
-
-    function isImageFileValid(file) {
-        const acceptedFormats = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
-        return acceptedFormats.includes(file.type);
-    }
-
-    if (!username || !message) {
-        Swal.fire('مشكلة', 'فيه فراغات فاضية يامسلم رح شوفها', 'error');
-        return;
-    }
-
-    if (imageFile) {
-        if (isImageFileValid(imageFile)) {
-            imageUrl = await uploadImageToImgur(imageFile);
-        } else {
-            Swal.fire('مشكلة', 'يالحبيب قلنا صورة موب تخترع لنا ملف جديد', 'error');
-            return;
-        }
-    }
-
-    if (webhookImageFile) {
-        if (isImageFileValid(webhookImageFile)) {
-            webhookImageUrl = await uploadImageToImgur(webhookImageFile);
-        } else {
-            Swal.fire('مشكلة', 'يالحبيب قلنا صورة موب تخترع لنا ملف جديد', 'error');
-            return;
-        }
-    }
-
-    if (imageFile) {
-        console.log("اسم الصورة: " + imageFile.name);
-        console.log("حجم الصورة: " + (imageFile.size / 1024).toFixed(2) + " KB");
-    }
+    // هنا يمكنك وضع الكود لرفع الصور إلى Imgur وإرجاع روابطها
 
     var payload = {
         username: username,
@@ -152,27 +105,19 @@ async function sendData() {
             }
         }]
     };
-//هنا الويب هوك
-    fetch('https://discord.com/api/webhooks/1224778480508735640/RMj9LFhXBOUipFp4SbtG6HmZi78VxcEFOJyqYibpzTXVpBQvr3ZOVbVRb72tf5RUnsl-', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(payload)
-})
-.then(response => {
-    if (response.ok) {
-        Swal.fire('نجح', 'ارسال الرسالة عبر الويب هوك بنجاح', 'success');
-    } else {
-        response.json().then(data => {
-            Swal.fire('مشكلة', 'فيه خطاء صار يوم جيت ترسل' + data.message, 'error');
-        });
-    }
-})
-.catch(error => {
-    Swal.fire('مشكلة', 'صارت مشكلة ياطويل العمر ماندري وش سببها' + error.message, 'error');
-});
+
+    // هنا يمكنك وضع الكود لإرسال البيانات عبر الويب هوك
 }
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var authenticated = urlParams.get('authenticated');
+    if (authenticated === 'true') {
+        Swal.fire('تم تسجيل الدخول', 'أهلاً بك في صفحة الويب هوك!', 'success');
+    }
+});
 </script>
 
 </body>
